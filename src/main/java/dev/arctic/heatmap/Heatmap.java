@@ -17,6 +17,8 @@ public final class Heatmap extends JavaPlugin {
     public static Heatmap plugin;
     public static int scalar;
 
+    //adding a comment to test webhook!
+
     @Override
     public void onEnable() {
         // Plugin startup logic
