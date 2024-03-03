@@ -1,1 +1,13 @@
+# ▬▬▬▬| Config |▬▬▬▬
+# this is a pretty bare-bones plugin at the moment
+# and is still actively in development to add new
+# features!
+configVersion: 1.0
+# ▬▬▬▬| Heatmap Node Configuration |▬▬▬▬
+#
+# ---| Scalar |---
+# How far apart should we process movement data.
+# this is more effective for maps of large scale
+# however it does generate "lost" data which can be
+# compared to individual player trails.
 scalar: 1

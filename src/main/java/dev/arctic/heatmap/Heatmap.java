@@ -3,9 +3,12 @@ package dev.arctic.heatmap;
 import dev.arctic.heatmap.commands.CommandManager;
 import dev.arctic.heatmap.commands.TabComplete;
 import dev.arctic.heatmap.listeners.PlayerMoveEventListener;
+import dev.arctic.heatmap.utility.ConfigManager;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -19,8 +22,16 @@ public final class Heatmap extends JavaPlugin {
         // Plugin startup logic
         plugin = this;
 
-        plugin.saveConfig();
-        plugin.saveDefaultConfig();
+        if (!new File(getDataFolder().getAbsolutePath(), "config.yml").exists()) {
+            saveDefaultConfig();
+        } else {
+            ConfigManager.HeatmapConfig config = ConfigManager.createConfigObject();
+            try {
+                ConfigManager.updateConfig(config);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         scalar = plugin.getConfig().getInt("scalar");
 
