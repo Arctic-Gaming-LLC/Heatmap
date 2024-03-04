@@ -1,6 +1,6 @@
 package dev.arctic.heatmap.commands;
 
-import dev.arctic.heatmap.HeatmapManager;
+import dev.arctic.heatmap.utility.HeatmapManager;
 import dev.arctic.heatmap.objects.HeatmapObject;
 
 import java.util.logging.Level;

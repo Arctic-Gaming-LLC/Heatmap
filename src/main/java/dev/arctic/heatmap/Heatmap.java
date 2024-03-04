@@ -4,11 +4,12 @@ import dev.arctic.heatmap.commands.CommandManager;
 import dev.arctic.heatmap.commands.TabComplete;
 import dev.arctic.heatmap.listeners.PlayerMoveEventListener;
 import dev.arctic.heatmap.utility.ConfigManager;
+import dev.arctic.heatmap.utility.DataManagement;
+import dev.arctic.heatmap.utility.HeatmapManager;
+import dev.arctic.heatmap.utility.StorageStrategy;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -17,29 +18,23 @@ public final class Heatmap extends JavaPlugin {
     public static Heatmap plugin;
     public static int scalar;
 
-    //adding a comment to test webhook!
+    public static DataManagement dataManagement;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
 
-        if (!new File(getDataFolder().getAbsolutePath(), "config.yml").exists()) {
-            saveDefaultConfig();
-        } else {
-            ConfigManager.HeatmapConfig config = ConfigManager.createConfigObject();
-            try {
-                ConfigManager.updateConfig(config);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        ConfigManager.ensureConfig();
 
-        scalar = plugin.getConfig().getInt("scalar");
+        // Load config values
+        scalar = getConfig().getInt("scalar");
 
-        plugin.getLogger().log(Level.INFO, "Heatmap warmed up!");
+        dataManagement = new DataManagement();
+
+        getLogger().info("Heatmap warmed up!");
         HeatmapManager.loadHeatmaps();
-        plugin.getLogger().log(Level.INFO, "Heatmaps loaded");
+        getLogger().info("Heatmaps loaded");
 
 
         //implement commands
@@ -57,7 +52,7 @@ public final class Heatmap extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        HeatmapManager.saveHeatmaps();
+        DataManagement.saveHeatmapsSync(HeatmapManager.heatmaps);
         plugin.getLogger().log(Level.WARNING, "Plugin closed down!");
     }
 }

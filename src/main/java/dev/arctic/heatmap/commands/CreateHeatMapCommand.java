@@ -1,7 +1,7 @@
 package dev.arctic.heatmap.commands;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import dev.arctic.heatmap.HeatmapManager;
+import dev.arctic.heatmap.utility.HeatmapManager;
 import dev.arctic.heatmap.objects.HeatmapObject;
 
 import java.util.logging.Level;

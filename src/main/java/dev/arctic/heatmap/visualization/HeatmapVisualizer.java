@@ -1,6 +1,6 @@
 package dev.arctic.heatmap.visualization;
 
-import dev.arctic.heatmap.HeatmapManager;
+import dev.arctic.heatmap.utility.HeatmapManager;
 import dev.arctic.heatmap.objects.HeatmapObject;
 import dev.arctic.heatmap.objects.Trail;
 import org.bukkit.Color;

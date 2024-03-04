@@ -7,7 +7,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
-import dev.arctic.heatmap.HeatmapManager;
+import dev.arctic.heatmap.utility.HeatmapManager;
 import dev.arctic.heatmap.objects.HeatmapObject;
 import dev.arctic.heatmap.objects.Trail;
 import org.bukkit.entity.Player;
@@ -16,14 +16,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.UUID;
-import java.util.logging.Level;
-
-import static dev.arctic.heatmap.Heatmap.plugin;
 
 public class PlayerMoveEventListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
+
+        if (event.getFrom().distance(event.getTo()) < 0.33) {
+            return; // Movement is not significant
+        }
 
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
