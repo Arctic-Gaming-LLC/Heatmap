@@ -22,7 +22,7 @@ public class PlayerMoveEventListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
 
-        if (event.getFrom().distance(event.getTo()) < 0.33) {
+        if (event.getFrom().distance(event.getTo()) < 0.2) {
             return; // Movement is not significant
         }
 

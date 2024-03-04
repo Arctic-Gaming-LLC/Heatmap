@@ -2,8 +2,10 @@ package dev.arctic.heatmap.utility;
 
 import dev.arctic.heatmap.objects.HeatmapObject;
 import static dev.arctic.heatmap.Heatmap.dataManagement;
+import static dev.arctic.heatmap.Heatmap.plugin;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class HeatmapManager {
 
@@ -33,6 +35,14 @@ public class HeatmapManager {
     }
 
     public static void loadHeatmaps() {
-        heatmaps = dataManagement.loadHeatmaps();
+        HashMap<String, HeatmapObject> loadedMap = dataManagement.loadHeatmaps();
+        for (HeatmapObject heatmap: loadedMap.values()){
+            heatmaps.put(heatmap.getRegionID(), heatmap);
+        }
+        if (heatmaps == null || heatmaps.isEmpty()) {
+            plugin.getLogger().log(Level.WARNING, "No heatmaps loaded or failed to load heatmaps.");
+        } else {
+            plugin.getLogger().log(Level.WARNING, heatmaps.size() + " heatmaps loaded successfully.");
+        }
     }
 }

@@ -20,15 +20,10 @@ public class JsonStorageStrategy implements StorageStrategy {
             .enableComplexMapKeySerialization()
             .setPrettyPrinting()
             .create();
-    private final File dataFolder;
-
-    public JsonStorageStrategy(File dataFolder) {
-        this.dataFolder = dataFolder;
-    }
 
     @Override
-    public void saveHeatmapsSync(HashMap<String,HeatmapObject> heatmaps) {
-        File heatmapFile = new File(plugin.getDataFolder(), "heatmaps.json");
+    public void saveHeatmapsSync(HashMap<String, HeatmapObject> heatmaps) {
+        File heatmapFile = new File(plugin.getDataFolder().getAbsolutePath() + "/heatmaps.json");
         try (Writer writer = new FileWriter(heatmapFile)) {
             gson.toJson(heatmaps, writer);
         } catch (IOException e) {
@@ -39,7 +34,7 @@ public class JsonStorageStrategy implements StorageStrategy {
     @Override
     public void saveHeatmaps(HashMap<String, HeatmapObject> heatmaps) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            File heatmapFile = new File(plugin.getDataFolder(), "heatmaps.json");
+            File heatmapFile = new File(plugin.getDataFolder().getAbsolutePath() + "/heatmaps.json");
             try (Writer writer = new FileWriter(heatmapFile)) {
                 gson.toJson(heatmaps, writer);
             } catch (IOException e) {
@@ -51,13 +46,14 @@ public class JsonStorageStrategy implements StorageStrategy {
 
     @Override
     public HashMap<String, HeatmapObject> loadHeatmaps() {
-        File heatmapFile = new File(dataFolder, "heatmaps.json");
+        File heatmapFile = new File(plugin.getDataFolder().getAbsolutePath() + "/heatmaps.json");
         if (!heatmapFile.exists()) {
             return new HashMap<>();
         }
 
         try (Reader reader = new FileReader(heatmapFile)) {
-            Type type = new TypeToken<HashMap<String, HeatmapObject>>() {}.getType();
+            Type type = new TypeToken<HashMap<String, HeatmapObject>>() {
+            }.getType();
             return gson.fromJson(reader, type);
         } catch (IOException e) {
             e.printStackTrace();

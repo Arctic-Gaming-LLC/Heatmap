@@ -4,8 +4,7 @@ plugins {
 }
 
 group = 'dev.arctic'
-version = '1.2.2'
-
+version = '1.1.2_dev'
 repositories {
     mavenCentral()
     maven {
@@ -29,7 +28,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-    implementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+    compileOnly group: 'com.h2database', name: 'h2', version: '2.2.224'
     implementation 'mysql:mysql-connector-java:8.0.33'
 }
 
@@ -63,6 +62,7 @@ processResources {
 shadowJar {
     archiveClassifier.set('')
     configurations = [project.configurations.runtimeClasspath]
+    minimize()
 }
 
 build.dependsOn(shadowJar)

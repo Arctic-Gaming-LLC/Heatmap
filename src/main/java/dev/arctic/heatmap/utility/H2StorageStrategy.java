@@ -85,10 +85,13 @@ public class H2StorageStrategy implements StorageStrategy {
                 "regionID VARCHAR(255) PRIMARY KEY," +
                 "data TEXT NOT NULL" +
                 ");";
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement stmt = conn.prepareStatement(createTableSQL)) {
-            stmt.execute();
-        } catch (SQLException e) {
+        try {
+            Class.forName("org.h2.Driver"); // Explicitly load the H2 driver
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement stmt = conn.prepareStatement(createTableSQL)) {
+                stmt.execute();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }

@@ -80,10 +80,19 @@ public class HeatmapVisualizer {
     }
 
     private static List<Location> findNearestNodesWithinScalar(Location node, List<Location> nodes, int scalar) {
-        double adjustedScalar = scalar + scalar * 0.1; // Adjusting scalar to ensure coverage
+        double adjustedScalar = scalar * Math.sqrt(2);
+        double verticalScalar = scalar * 2;
+
         return nodes.stream()
-                .filter(other -> !other.equals(node) && node.distance(other) <= adjustedScalar)
+                .filter(other -> !other.equals(node) && isWithinSearchRadius(node, other, adjustedScalar, verticalScalar))
                 .collect(Collectors.toList());
+    }
+
+    private static boolean isWithinSearchRadius(Location node, Location other, double adjustedScalar, double verticalScalar) {
+        double horizontalDistance = Math.sqrt(Math.pow(node.getX() - other.getX(), 2) + Math.pow(node.getZ() - other.getZ(), 2));
+        double verticalDistance = Math.abs(node.getY() - other.getY());
+
+        return horizontalDistance <= adjustedScalar && verticalDistance <= verticalScalar;
     }
 
     private static void drawParticleLine(Location start, Location end, int startCount, int endCount, int minValue, int maxValue) {

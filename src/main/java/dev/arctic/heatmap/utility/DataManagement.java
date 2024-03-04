@@ -2,11 +2,9 @@ package dev.arctic.heatmap.utility;
 
 import dev.arctic.heatmap.objects.HeatmapObject;
 
-import java.io.File;
 import java.util.HashMap;
 
 import static dev.arctic.heatmap.Heatmap.plugin;
-import static dev.arctic.heatmap.Heatmap.dataManagement;
 
 public class DataManagement {
     private static StorageStrategy storageStrategy;
@@ -26,7 +24,7 @@ public class DataManagement {
                 );
                 break;
             default:
-                storageStrategy = new JsonStorageStrategy(new File(plugin.getDataFolder(), "heatmaps.json"));
+                storageStrategy = new JsonStorageStrategy();
                 break;
         }
     }
