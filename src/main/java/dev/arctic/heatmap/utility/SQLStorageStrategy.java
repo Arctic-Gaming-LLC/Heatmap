@@ -90,4 +90,19 @@ public class SQLStorageStrategy implements StorageStrategy {
         }
         return loadedHeatmaps;
     }
+
+
+    @Override
+    public void removeHeatmap(String regionID) {
+        ensureTableExists();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String query = "DELETE FROM heatmap_storage WHERE regionID = ?;";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, regionID);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -39,5 +39,9 @@ public class DataManagement {
     public static HashMap<String, HeatmapObject> loadHeatmaps() {
         return storageStrategy.loadHeatmaps();
     }
+
+    public static void removeHeatmap(String regionID){
+        storageStrategy.removeHeatmap(regionID);
+    }
 }
 

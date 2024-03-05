@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'dev.arctic'
-version = '1.1.2_dev'
+version = '1.2.0_DEV'
 repositories {
     mavenCentral()
     maven {

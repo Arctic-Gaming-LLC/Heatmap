@@ -8,4 +8,6 @@ public interface StorageStrategy {
     void saveHeatmapsSync(HashMap<String, HeatmapObject> heatmaps);
     void saveHeatmaps(HashMap<String, HeatmapObject> heatmaps);
     HashMap<String, HeatmapObject> loadHeatmaps();
+
+    void removeHeatmap(String regionID);
 }

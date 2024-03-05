@@ -52,12 +52,19 @@ public class JsonStorageStrategy implements StorageStrategy {
         }
 
         try (Reader reader = new FileReader(heatmapFile)) {
-            Type type = new TypeToken<HashMap<String, HeatmapObject>>() {
-            }.getType();
+            Type type = new TypeToken<HashMap<String, HeatmapObject>>() {}.getType();
             return gson.fromJson(reader, type);
         } catch (IOException e) {
             e.printStackTrace();
             return new HashMap<>();
+        }
+    }
+
+    @Override
+    public void removeHeatmap(String regionID) {
+        HashMap<String, HeatmapObject> currentHeatmaps = loadHeatmaps();
+        if (currentHeatmaps.remove(regionID) != null) {
+            saveHeatmaps(currentHeatmaps);
         }
     }
 }

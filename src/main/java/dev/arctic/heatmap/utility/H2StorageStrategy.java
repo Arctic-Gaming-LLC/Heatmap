@@ -53,30 +53,49 @@ public class H2StorageStrategy implements StorageStrategy {
     @Override
     public HashMap<String, HeatmapObject> loadHeatmaps() {
         ensureTableExists();
-        String url = getConnectionUrl();
-        String sql = "SELECT * FROM heatmaps";
         HashMap<String, HeatmapObject> loadedHeatmaps = new HashMap<>();
+        String url = getConnectionUrl();
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM heatmaps")) {
 
-        try {
-            // Attempt to establish connection
-            try (Connection conn = DriverManager.getConnection(url);
-                 PreparedStatement stmt = conn.prepareStatement(sql);
-                 ResultSet rs = stmt.executeQuery()) {
-
-                Type type = new TypeToken<HeatmapObject>() {}.getType();
-
-                while (rs.next()) {
-                    String regionID = rs.getString("regionID");
-                    String heatmapData = rs.getString("data");
-                    HeatmapObject heatmapObject = gson.fromJson(heatmapData, type);
-                    loadedHeatmaps.put(regionID, heatmapObject);
-                }
+            while (rs.next()) {
+                String regionID = rs.getString("regionID");
+                String heatmapData = rs.getString("data");
+                HeatmapObject heatmapObject = gson.fromJson(heatmapData, HeatmapObject.class);
+                loadedHeatmaps.put(regionID, heatmapObject);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return loadedHeatmaps;
+    }
+
+
+    @Override
+    public void removeHeatmap(String regionID) {
+        String url = getConnectionUrl();
+        String sql = "DELETE FROM heatmaps WHERE regionID = ?";
+
+        try {
+            // Attempt to establish connection and prepare the statement
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                // Set the regionID parameter and execute the update
+                stmt.setString(1, regionID);
+                int affectedRows = stmt.executeUpdate();
+
+                // Optionally, log the removal
+                if (affectedRows > 0) {
+                    System.out.println("Successfully removed heatmap with regionID: " + regionID);
+                } else {
+                    System.out.println("No heatmap found with regionID: " + regionID);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void ensureTableExists() {
