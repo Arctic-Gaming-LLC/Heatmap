@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'dev.arctic'
-version = '1.2.0_DEV'
+version = '1.4.0'
 repositories {
     mavenCentral()
     maven {
@@ -20,8 +20,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.9'
+    compileOnly "io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT"
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7'
+    compileOnly 'xyz.jpenilla:squaremap-api:1.2.1'
+
+    implementation 'com.github.haifengl:smile-core:2.6.0'
+    implementation 'com.github.haifengl:smile-data:2.6.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'

@@ -35,6 +35,7 @@ public class TabComplete implements TabCompleter {
             completions.add("close");
             completions.add("view");
             completions.add("remove");
+            completions.add("render");
         } else if (strings.length == 2) {
             completions = getAllRegions();
         } else if (strings.length == 3 && "view".equalsIgnoreCase(strings[0])) {

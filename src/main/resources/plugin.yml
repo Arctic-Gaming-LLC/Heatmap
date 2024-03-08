@@ -6,6 +6,7 @@ load: POSTWORLD
 libraries:
   - 'com.h2database:h2:2.2.224'
 depend: [WorldGuard]
+softdepend: [squaremap]
 commands:
   heatmap:
     description: Primary command for plugin!

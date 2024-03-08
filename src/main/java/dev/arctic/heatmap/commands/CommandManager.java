@@ -1,11 +1,14 @@
 package dev.arctic.heatmap.commands;
 
+import dev.arctic.heatmap.Heatmap;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
+
+import static dev.arctic.heatmap.Heatmap.mapPluginStatus;
 
 public class CommandManager implements CommandExecutor {
 
@@ -73,6 +76,15 @@ public class CommandManager implements CommandExecutor {
                         return true;
                     } else {
                         player.sendMessage("Heatmap unable to be removed.");
+                    }
+                }
+                break;
+            case "render":
+                if (player.hasPermission("heatmap.render") || player.hasPermission("heatmap.admin") || player.isOp()) {
+                    if (mapPluginStatus == 1) {
+                        new RenderHeatmapCommand().execute(regionID);
+                    } else {
+                        player.sendMessage("No map plugin found. Please install and enable Squaremap.");
                     }
                 }
                 break;
