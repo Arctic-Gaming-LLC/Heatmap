@@ -81,11 +81,14 @@ public class CommandManager implements CommandExecutor {
                 break;
             case "render":
                 if (player.hasPermission("heatmap.render") || player.hasPermission("heatmap.admin") || player.isOp()) {
-                    if (mapPluginStatus == 1) {
-                        new RenderHeatmapCommand().execute(regionID);
-                    } else {
-                        player.sendMessage("No map plugin found. Please install and enable Squaremap.");
+                    if (mapPluginStatus == 0) {
+                        player.sendMessage("No map plugin found. Please install a supported map plugin.");
+                        return true;
                     }
+                    new RenderHeatmapCommand().execute(regionID);
+                    player.sendMessage("Heatmap rendering initiated for " + regionID + ".");
+                } else {
+                    player.sendMessage("You do not have permission to render heatmaps.");
                 }
                 break;
             default:

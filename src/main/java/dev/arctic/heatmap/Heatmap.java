@@ -11,6 +11,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
+import java.util.logging.Level;
 
 public final class Heatmap extends JavaPlugin {
 
@@ -27,14 +28,19 @@ public final class Heatmap extends JavaPlugin {
 
         // Load heatmaps and commands setup
         dataManagement = new DataManagement();
+        HeatmapManager.loadHeatmaps();
+
         getServer().getPluginManager().registerEvents(new HeatmapRenderEventListener(), this);
         Objects.requireNonNull(getCommand("heatmap")).setExecutor(new CommandManager());
         Objects.requireNonNull(getCommand("heatmap")).setTabCompleter(new TabComplete());
+
+        //listeners
         final PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerMoveEventListener(), this);
 
         // Map plugin check
         checkMapPlugin(pm);
+        plugin.getLogger().log(Level.WARNING, "Map Plugin Status: " + mapPluginStatus);
 
         getLogger().info("Heatmap plugin loaded and ready.");
     }
@@ -45,8 +51,10 @@ public final class Heatmap extends JavaPlugin {
         } else if (pm.getPlugin("Pl3xmap") != null && pm.isPluginEnabled("Pl3xmap") ||
                 pm.getPlugin("Dynmap") != null && pm.isPluginEnabled("Dynmap")) {
             mapPluginStatus = 2;
-        } else if (pm.getPlugin("Bluemap") != null && pm.isPluginEnabled("Bluemap")) {
+        } else if (pm.getPlugin("BlueMap") != null && pm.isPluginEnabled("BlueMap")) {
             mapPluginStatus = 3;
+        } else if(pm.getPlugin("Dynmap") != null && pm.isPluginEnabled("Dynmap")){
+            mapPluginStatus = 4;
         }
     }
 

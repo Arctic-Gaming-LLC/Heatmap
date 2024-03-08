@@ -1,25 +1,18 @@
 package dev.arctic.heatmap.objects;
 
-import xyz.jpenilla.squaremap.api.Point;
 import java.awt.Color;
 
 public class SquareZone {
-    private final Point minPoint;
-    private final Point maxPoint;
-    private final Color color; // Now storing color directly
+    private final double[][] coordinates; // [[minX, minZ], [maxX, maxZ]]
+    private final Color color;
 
-    public SquareZone(Point minPoint, Point maxPoint, Color color) {
-        this.minPoint = minPoint;
-        this.maxPoint = maxPoint;
+    public SquareZone(double minX, double minZ, double maxX, double maxZ, Color color) {
+        this.coordinates = new double[][]{{minX, minZ}, {maxX, maxZ}};
         this.color = color;
     }
 
-    public Point getMinPoint() {
-        return minPoint;
-    }
-
-    public Point getMaxPoint() {
-        return maxPoint;
+    public double[][] getCoordinates() {
+        return coordinates;
     }
 
     public Color getColor() {

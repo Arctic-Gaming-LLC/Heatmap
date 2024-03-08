@@ -76,14 +76,13 @@ public class Clustering {
         }
     }
 
-    private static void createSquareZonesFromPoints(List<double[]> points, Color color) {
+    private static void createSquareZonesFromPoints(List<double[]> points, java.awt.Color color) {
         double minX = points.stream().mapToDouble(p -> p[0]).min().orElse(0);
         double maxX = points.stream().mapToDouble(p -> p[0]).max().orElse(0);
         double minZ = points.stream().mapToDouble(p -> p[1]).min().orElse(0);
         double maxZ = points.stream().mapToDouble(p -> p[1]).max().orElse(0);
 
-        // Add the new SquareZone to processedZones
-        SquareZone newZone = new SquareZone(Point.of(minX, minZ), Point.of(maxX, maxZ), color);
+        SquareZone newZone = new SquareZone(minX, minZ, maxX, maxZ, color);
         Clustering.processedZones.add(newZone);
     }
 }

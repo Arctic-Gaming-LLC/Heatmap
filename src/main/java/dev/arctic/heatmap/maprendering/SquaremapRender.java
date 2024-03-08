@@ -1,15 +1,15 @@
-package dev.arctic.heatmap.squaremap;
+package dev.arctic.heatmap.maprendering;
 
 import dev.arctic.heatmap.objects.HeatmapObject;
 import dev.arctic.heatmap.objects.SquareZone;
 import dev.arctic.heatmap.utility.WorldGuardHelper;
 import org.bukkit.World;
 import xyz.jpenilla.squaremap.api.*;
+import xyz.jpenilla.squaremap.api.Point;
 import xyz.jpenilla.squaremap.api.marker.Marker;
 import xyz.jpenilla.squaremap.api.marker.MarkerOptions;
 import xyz.jpenilla.squaremap.api.marker.Rectangle;
 
-import java.awt.*;
 import java.util.List;
 
 import static dev.arctic.heatmap.Heatmap.plugin;
@@ -48,18 +48,22 @@ public class SquaremapRender {
         mapWorld.layerRegistry().register(layerKey, provider);
 
         for (SquareZone zone : zones) {
-            // Construct a unique key for each zone based on "hits", "x", and "z"
-            String zoneKey = "zone_" + zone.getMinPoint().x() + "_" + zone.getMinPoint().z();
+            // Adapted coordinate conversion logic
+            double[][] coords = zone.getCoordinates();
+            Point minPoint = Point.of(coords[0][0], coords[0][1]);
+            Point maxPoint = Point.of(coords[1][0], coords[1][1]);
+
+            String zoneKey = "zone_" + minPoint.x() + "_" + minPoint.z();
             Key markerKey = Key.of(zoneKey);
 
             MarkerOptions options = MarkerOptions.builder()
                     .fillColor(zone.getColor())
                     .fillOpacity(0.5)
-                    .strokeColor(Color.BLACK)
+                    .strokeColor(java.awt.Color.BLACK)
                     .strokeWeight(1)
                     .build();
 
-            Rectangle rectangle = Marker.rectangle(zone.getMinPoint(), zone.getMaxPoint());
+            Rectangle rectangle = Marker.rectangle(minPoint, maxPoint);
             rectangle.markerOptions(options);
             provider.addMarker(markerKey, rectangle);
         }

@@ -5,6 +5,9 @@ import dev.arctic.heatmap.objects.HeatmapObject;
 import dev.arctic.heatmap.utility.WorldGuardHelper;
 import org.bukkit.World;
 
+import java.util.logging.Level;
+
+import static dev.arctic.heatmap.Heatmap.plugin;
 import static dev.arctic.heatmap.utility.HeatmapManager.heatmaps;
 
 public class RenderHeatmapCommand {

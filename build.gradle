@@ -4,13 +4,17 @@ plugins {
 }
 
 group = 'dev.arctic'
-version = '1.4.0'
+version = '1.4.1'
 repositories {
     mavenCentral()
     maven {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
     }
+    maven {
+        url = "https://repo.mikeprimm.com/"
+    }
+    maven { url 'https://jitpack.io' }
     maven {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
@@ -22,7 +26,10 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT"
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7'
+
     compileOnly 'xyz.jpenilla:squaremap-api:1.2.1'
+    compileOnly "us.dynmap:DynmapCoreAPI:3.4"
+    compileOnly 'com.github.BlueMap-Minecraft:BlueMapAPI:v2.6.2'
 
     implementation 'com.github.haifengl:smile-core:2.6.0'
     implementation 'com.github.haifengl:smile-data:2.6.0'

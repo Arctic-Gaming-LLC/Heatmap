@@ -1,12 +1,12 @@
 name: Heatmap
 version: '${version}'
 main: dev.arctic.heatmap.Heatmap
-api-version: '1.20'
+api-version: '1.18'
 load: POSTWORLD
 libraries:
   - 'com.h2database:h2:2.2.224'
 depend: [WorldGuard]
-softdepend: [squaremap]
+softdepend: [squaremap, pl3xmap, dynmap, BlueMap]
 commands:
   heatmap:
     description: Primary command for plugin!
